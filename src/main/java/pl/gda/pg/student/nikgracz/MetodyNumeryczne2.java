@@ -1,3 +1,7 @@
+package pl.gda.pg.student.nikgracz;
+
+import pl.gda.pg.student.nikgracz.Math.Matrix;
+
 /**
  * Application main class.
  */
@@ -9,6 +13,8 @@ public class MetodyNumeryczne2 {
      * @param args  the array of arguments
      */
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Matrix matrix = new Matrix(5);
+
+        System.out.print(matrix.getSize());
     }
 }
