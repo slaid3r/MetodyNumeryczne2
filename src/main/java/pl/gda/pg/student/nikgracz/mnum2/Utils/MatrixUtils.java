@@ -5,10 +5,14 @@ import org.apache.commons.lang3.Validate;
 import pl.gda.pg.student.nikgracz.mnum2.Math.Matrix;
 import pl.gda.pg.student.nikgracz.mnum2.SNAP.SNAPGraph;
 
+import java.util.logging.Logger;
+
 /**
  * Utility class for {@code Matrix}.
  */
 public class MatrixUtils {
+
+    private static final Logger LOGGER = Logger.getLogger(MatrixUtils.class.getName());
 
     /**
      * Utility class, should not be instantiated.
@@ -41,7 +45,7 @@ public class MatrixUtils {
      * @param B  the second matrix to multiply
      * @return  the result of multiplying
      */
-    public static Matrix multiplyMatrices(Matrix A, Matrix B) {
+    public static Matrix multiplyByDiagonal(Matrix A, Matrix B) {
 
         Validate.isTrue(A.getSizeN() == B.getSizeM(), "The number of columns in A must equal the number of rows in B!");
 
@@ -49,12 +53,9 @@ public class MatrixUtils {
 
         for (int i = 0; i < A.getSizeM(); i++) {
             for (int j = 0; j < B.getSizeN(); j++) {
-                double value = 0;
-                for (int k = 0; k < A.getSizeN(); k++) {
-                    value += A.getAt(i, k) * B.getAt(k, j);
-                }
-                result.setAt(i, j, value);
+                result.setAt(i, j, A.getAt(i, j) * B.getAt(j, j));
             }
+            LOGGER.info("Row " + i + " done.");
         }
 
         return result;
@@ -75,6 +76,7 @@ public class MatrixUtils {
             for (int j = 0; j < A.getSizeN(); j++) {
                 result.setAt(i, j, A.getAt(i, j) - B.getAt(i, j));
             }
+            LOGGER.info("Row " + i + " done.");
         }
         return result;
     }

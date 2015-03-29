@@ -17,15 +17,15 @@ public class MatrixUtilsTest {
     private static final double[][] MATRIX_ONE = {{1, 2},
                                                   {3, 4},
                                                   {5, 6}};
-    private static final double[][] MATRIX_TWO = {{1, 2, 3},
-                                                  {4, 5, 6}};
-    private static final double[][] MATRIX_THREE = {{5, 4, 3},
-                                                    {2, 1, 0}};
-    private static final double[][] SUBSTRACT_RESULT = {{-4, -2, 0},
-                                                        { 2,  4, 6}};
-    private static final double[][] MULTIPLY_RESULT = {{ 9, 12, 15},
-                                                       {19, 26, 33},
-                                                       {29, 40, 51}};
+    private static final double[][] MATRIX_TWO = {{1, 0},
+                                                  {0, 2}};
+    private static final double[][] MATRIX_THREE = {{5, 4},
+                                                    {2, 1}};
+    private static final double[][] SUBSTRACT_RESULT = {{-4, -4},
+                                                        {-2,  1}};
+    private static final double[][] MULTIPLY_RESULT = {{1,  4},
+                                                       {3,  8},
+                                                       {5, 12}};
 
     @Test
     public void shouldConvertToMatrix() {
@@ -40,10 +40,10 @@ public class MatrixUtilsTest {
     public void shouldMultiplyMatrices() {
 
         Matrix matrixOne = new Matrix(3, 2, MATRIX_ONE);
-        Matrix matrixTwo = new Matrix(2, 3, MATRIX_TWO);
-        Matrix expected = new Matrix(3, 3, MULTIPLY_RESULT);
+        Matrix matrixTwo = new Matrix(2, 2, MATRIX_TWO);
+        Matrix expected = new Matrix(3, 2, MULTIPLY_RESULT);
 
-        assertEquals(expected, MatrixUtils.multiplyMatrices(matrixOne, matrixTwo));
+        assertEquals(expected, MatrixUtils.multiplyByDiagonal(matrixOne, matrixTwo));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -52,7 +52,7 @@ public class MatrixUtilsTest {
         Matrix matrixOne = new Matrix(2, 3, MATRIX_TWO);
         Matrix matrixTwo = new Matrix(2, 3, MATRIX_THREE);
 
-        MatrixUtils.multiplyMatrices(matrixOne, matrixTwo);
+        MatrixUtils.multiplyByDiagonal(matrixOne, matrixTwo);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -67,9 +67,9 @@ public class MatrixUtilsTest {
     @Test
     public void shouldSubstractMatrices() {
 
-        Matrix matrixOne = new Matrix(2, 3, MATRIX_TWO);
-        Matrix matrixTwo = new Matrix(2, 3, MATRIX_THREE);
-        Matrix expected = new Matrix(2, 3, SUBSTRACT_RESULT);
+        Matrix matrixOne = new Matrix(2, 2, MATRIX_TWO);
+        Matrix matrixTwo = new Matrix(2, 2, MATRIX_THREE);
+        Matrix expected = new Matrix(2, 2, SUBSTRACT_RESULT);
 
         assertEquals(expected, MatrixUtils.substractMatrices(matrixOne, matrixTwo));
     }

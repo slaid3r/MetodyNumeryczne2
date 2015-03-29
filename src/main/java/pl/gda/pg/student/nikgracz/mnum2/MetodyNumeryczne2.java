@@ -9,11 +9,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Application main class.
  */
 public class MetodyNumeryczne2 {
+
+    private static Logger LOGGER = Logger.getLogger(MetodyNumeryczne2.class.getName());
 
     /**
      * Application entry point.
@@ -38,7 +41,7 @@ public class MetodyNumeryczne2 {
 
         adjacencyMatrix.multiplyBy(d);
 
-        Matrix subresult = MatrixUtils.substractMatrices(Matrix.identityMatrix(graph.getNodes()), MatrixUtils.multiplyMatrices(adjacencyMatrix, diag));
+        Matrix subresult = MatrixUtils.substractMatrices(Matrix.identityMatrix(graph.getNodes()), MatrixUtils.multiplyByDiagonal(adjacencyMatrix, diag));
 
         double[] column = new double[graph.getNodes()];
 
@@ -56,6 +59,7 @@ public class MetodyNumeryczne2 {
     private static void handleNodesWithoutConnections(Matrix adjacencyMatrix) {
         for (int i = 0; i < adjacencyMatrix.getSizeM(); i++) {
             if (sum(adjacencyMatrix.getRow(i)) == 0) {
+                LOGGER.info(i + "th row full of zeroes");
                 for (int j = 0; j < adjacencyMatrix.getSizeN(); j++) {
                     if (j != i) {
                         adjacencyMatrix.setAt(i, j, 1);
@@ -81,6 +85,7 @@ public class MetodyNumeryczne2 {
             for (int j = 0; j < matrix.getSizeN(); j++) {
                 connections += matrix.getAt(i, j);
             }
+            LOGGER.info("Number of connections for " + i + ": " + connections);
             diag.setAt(i, i, 1 / connections);
         }
 

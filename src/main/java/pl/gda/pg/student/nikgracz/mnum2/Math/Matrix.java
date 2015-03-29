@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Represents MxN matrix.
  */
 public class Matrix {
+
+    private static final Logger LOGGER = Logger.getLogger(Matrix.class.getName());
 
     private double[][] matrix;
     private int sizeM;
@@ -138,6 +141,7 @@ public class Matrix {
 
     /**
      * Returns nth row.
+     *
      * @param n  the number of the row
      * @return  the nth row
      */
@@ -161,6 +165,7 @@ public class Matrix {
                 newMatrix[i][j] = matrix[i][j];
             }
             newMatrix[i][sizeN] = column[i];
+            LOGGER.info("Row " + i + " done");
         }
 
         this.matrix = newMatrix;
@@ -235,6 +240,7 @@ public class Matrix {
                 }
                 matrix[i][0] = matrix[i][0] - matrix[i][k]*matrix[k][0];
             }
+            LOGGER.info("Unknows eliminated for row " + k);
         }
     }
 
@@ -250,6 +256,7 @@ public class Matrix {
             }
 
             result.add(xi);
+            LOGGER.info("X" + i + " is " + xi);
         }
 
         Collections.reverse(result);
