@@ -13,6 +13,7 @@ public class MetodyNumeryczne2 {
      * @param args  the array of arguments
      */
     public static void main(String[] args) {
+
         Matrix matrix = new Matrix(5);
 
         System.out.print(matrix.getSize());
