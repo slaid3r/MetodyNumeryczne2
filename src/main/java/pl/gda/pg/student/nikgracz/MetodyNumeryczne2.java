@@ -14,8 +14,8 @@ public class MetodyNumeryczne2 {
      */
     public static void main(String[] args) {
 
-        Matrix matrix = new Matrix(5);
+        Matrix matrix = new Matrix(5, 4);
 
-        System.out.print(matrix.getSize());
+        System.out.print(matrix.getSizeM());
     }
 }
