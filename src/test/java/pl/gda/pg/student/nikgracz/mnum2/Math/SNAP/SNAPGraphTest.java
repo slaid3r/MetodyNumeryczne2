@@ -24,14 +24,14 @@ public class SNAPGraphTest {
     public static void prepareClass() {
 
         Set<Pair<Integer, Integer>> values = new LinkedHashSet<>();
-        values.add(new Pair<>(0, 2));
-        values.add(new Pair<>(2, 4));
-        values.add(new Pair<>(3, 1));
-        values.add(new Pair<>(4, 2));
-        values.add(new Pair<>(1, 3));
-        values.add(new Pair<>(2, 3));
+        values.add(new Pair<>(0, 1));
+        values.add(new Pair<>(0, 3));
+        values.add(new Pair<>(1, 0));
+        values.add(new Pair<>(2, 0));
+        values.add(new Pair<>(2, 1));
+        values.add(new Pair<>(3, 2));
 
-        graph = new SNAPGraph(5, values);
+        graph = new SNAPGraph(4, values);
     }
 
     @Test

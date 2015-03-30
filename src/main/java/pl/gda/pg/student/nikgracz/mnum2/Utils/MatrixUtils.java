@@ -14,12 +14,6 @@ public class MatrixUtils {
 
     private static final Logger LOGGER = Logger.getLogger(MatrixUtils.class.getName());
 
-    /**
-     * Utility class, should not be instantiated.
-     */
-    private MatrixUtils() {
-
-    }
 
     /**
      * Converts given SNAPGraph to the adjacency matrix.

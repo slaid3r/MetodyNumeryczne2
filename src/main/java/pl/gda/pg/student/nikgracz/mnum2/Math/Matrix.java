@@ -1,5 +1,6 @@
 package pl.gda.pg.student.nikgracz.mnum2.Math;
 
+import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class Matrix {
     private double[][] matrix;
     private int sizeM;
     private int sizeN;
+    private int[] rows;
+    private int[] columns;
 
     /**
      * Creates MxN matrix full of zeros.
@@ -37,6 +40,17 @@ public class Matrix {
     public Matrix(double[][] matrixAsArray) {
         sizeM = matrixAsArray.length;
         sizeN = matrixAsArray[0].length;
+
+        rows = new int[sizeM];
+        for (int i = 0; i < sizeM; i++) {
+            rows[i] = i;
+        }
+
+        columns = new int[sizeN];
+        for (int i = 0; i < sizeN; i++) {
+            columns[i] = i;
+        }
+
         matrix = matrixAsArray;
     }
 
@@ -245,6 +259,7 @@ public class Matrix {
 
     private void eliminateUnknowns(double[][] matrix) {
         for (int k = 0; k < sizeM; k++) {
+            Pair<Integer, Integer> max = getMax(k, matrix);
             for (int j = sizeN - 1; j >= k; j--) {
                 matrix[k][j] = matrix[k][j] / matrix[k][k];
             }
@@ -258,6 +273,20 @@ public class Matrix {
             }
             LOGGER.info("Unknows eliminated for row " + k);
         }
+    }
+
+    private Pair<Integer, Integer> getMax(int k, double[][] matrix) {
+        Pair<Integer, Integer> maxLoc = new Pair<>(k, k);
+        double max = 0;
+        for (int i = k; i < matrix.length; i++) {
+            for (int j = k; j < matrix[j].length; j++) {
+                if (max < Math.abs(matrix[i][j])) {
+                    maxLoc = new Pair<>(i, j);
+                }
+            }
+        }
+
+        return maxLoc;
     }
 
     private List<Double> reverseBehavior(double[][] matrix) {
