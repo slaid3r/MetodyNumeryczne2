@@ -274,6 +274,7 @@ public class Matrix {
         int tempColumn = columns[k];
         columns[k] = max.getValue();
         columns[max.getValue()] = tempColumn;
+        System.out.println("Swapped " + k + " " + tempColumn + " with " + max.getValue() + " " + columns[k]);
 
         for (int i = 0; i < matrix.length; i++) {
             double temp = matrix[i][k];
@@ -322,9 +323,14 @@ public class Matrix {
 
         Collections.reverse(result);
 
+        for (Double element : result) {
+            System.out.println(element);
+        }
+
         Map<Integer, Double> map = new TreeMap<>();
 
         for (int i = 0; i < result.size(); i++) {
+            System.out.println(i + " " + columns[i]);
             map.put(columns[i], result.get(i));
         }
 
