@@ -6,6 +6,7 @@ import pl.gda.pg.student.nikgracz.mnum2.Search.PageRank;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -28,7 +29,13 @@ public class MetodyNumeryczne2 {
 
         PageRank page = new PageRank(new SNAPGraph(file), 0.85);
 
-        page.rank();
+        Map<Integer, Double> result = page.rank();
+
+        for (Map.Entry<Integer, Double> entry : result.entrySet()) {
+            System.out.println("x" + entry.getKey() + " = " + entry.getValue());
+        }
+
+        System.out.println("Time used: " + page.getTime() / 1000000000.0);
 
     }
 }

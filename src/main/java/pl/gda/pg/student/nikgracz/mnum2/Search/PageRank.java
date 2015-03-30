@@ -8,20 +8,23 @@ import pl.gda.pg.student.nikgracz.mnum2.Utils.PageRankUtils;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class PageRank {
 
     private final SNAPGraph graph;
     private final double d;
+    private long time;
 
     public PageRank(SNAPGraph graph, double d) {
         this.graph = graph;
         this.d = d;
+        this.time = -1;
     }
 
     public Map<Integer, Double> rank() {
+
+        long start = System.nanoTime();
 
         Map<Integer, Double> ranks = new LinkedHashMap<>();
 
@@ -34,13 +37,11 @@ public class PageRank {
 
         equationsSystem.addColumn(prepareColumn());
 
-        List<Double> result = equationsSystem.resolve();
+        Map<Integer, Double> result = equationsSystem.resolve();
 
-        for (Double x : result) {
-            System.out.println(x);
-        }
+        time = System.nanoTime() - start;
 
-        return ranks;
+        return result;
     }
 
     private double[] prepareColumn() {
@@ -49,4 +50,11 @@ public class PageRank {
         return column;
     }
 
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 }

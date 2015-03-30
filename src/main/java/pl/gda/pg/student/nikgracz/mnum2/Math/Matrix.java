@@ -3,18 +3,12 @@ package pl.gda.pg.student.nikgracz.mnum2.Math;
 import javafx.util.Pair;
 import org.apache.commons.lang3.Validate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
 
 /**
  * Represents MxN matrix.
  */
 public class Matrix {
-
-    private static final Logger LOGGER = Logger.getLogger(Matrix.class.getName());
 
     private double[][] matrix;
     private int sizeM;
@@ -60,7 +54,7 @@ public class Matrix {
      *
      * @return  the result of equations
      */
-    public List<Double> resolve() {
+    public Map<Integer, Double> resolve() {
 
         Validate.isTrue(sizeM == sizeN -1, "Invalid matrix for Gauss elimination method! Matrix must be of size Mx(M+1)");
 
@@ -173,7 +167,6 @@ public class Matrix {
         for (int i = 0; i < sizeM; i++) {
             System.arraycopy(matrix[i], 0, newMatrix[i], 0, matrix[i].length);
             newMatrix[i][sizeN] = column[i];
-            LOGGER.info("Row " + i + " done");
         }
 
         this.matrix = newMatrix;
@@ -260,6 +253,8 @@ public class Matrix {
     private void eliminateUnknowns(double[][] matrix) {
         for (int k = 0; k < sizeM; k++) {
             Pair<Integer, Integer> max = getMax(k, matrix);
+            swapRows(k, max, matrix);
+            swapColumn(k, max, matrix);
             for (int j = sizeN - 1; j >= k; j--) {
                 matrix[k][j] = matrix[k][j] / matrix[k][k];
             }
@@ -271,17 +266,39 @@ public class Matrix {
                 }
                 matrix[i][0] = matrix[i][0] - matrix[i][k]*matrix[k][0];
             }
-            LOGGER.info("Unknows eliminated for row " + k);
         }
+    }
+
+    private void swapColumn(int k, Pair<Integer, Integer> max, double[][] matrix) {
+
+        int tempColumn = columns[k];
+        columns[k] = max.getValue();
+        columns[max.getValue()] = tempColumn;
+
+        for (int i = 0; i < matrix.length; i++) {
+            double temp = matrix[i][k];
+            matrix[i][k] = matrix[i][max.getValue()];
+            matrix[i][max.getValue()] = temp;
+        }
+    }
+
+    private void swapRows(int k, Pair<Integer, Integer> max, double[][] matrix) {
+        int temp = rows[k];
+        rows[k] = max.getKey();
+        rows[max.getKey()] = temp;
+        double[] row = matrix[k];
+        matrix[k] = matrix[max.getKey()];
+        matrix[max.getKey()] = row;
     }
 
     private Pair<Integer, Integer> getMax(int k, double[][] matrix) {
         Pair<Integer, Integer> maxLoc = new Pair<>(k, k);
         double max = 0;
         for (int i = k; i < matrix.length; i++) {
-            for (int j = k; j < matrix[j].length; j++) {
+            for (int j = k; j < matrix[0].length - 1; j++) {
                 if (max < Math.abs(matrix[i][j])) {
                     maxLoc = new Pair<>(i, j);
+                    max = Math.abs(matrix[i][j]);
                 }
             }
         }
@@ -289,7 +306,7 @@ public class Matrix {
         return maxLoc;
     }
 
-    private List<Double> reverseBehavior(double[][] matrix) {
+    private Map<Integer, Double> reverseBehavior(double[][] matrix) {
         List<Double> result = new ArrayList<>();
 
         for (int i = sizeM - 1; i >= 0; i--) {
@@ -301,21 +318,17 @@ public class Matrix {
             }
 
             result.add(xi);
-            LOGGER.info("X" + i + " is " + xi);
         }
 
         Collections.reverse(result);
 
-        return result;
-    }
+        Map<Integer, Double> map = new TreeMap<>();
 
-    private void print(double[][] matrix) {
-        for (int i = 0; i < sizeM; i++) {
-            for (int j = 0; j < sizeN; j++) {
-                System.out.print(matrix[i][j] + "\t");
-            }
-            System.out.println();
+        for (int i = 0; i < result.size(); i++) {
+            map.put(columns[i], result.get(i));
         }
+
+        return map;
     }
 
     private void validateCoords(int m, int n) {

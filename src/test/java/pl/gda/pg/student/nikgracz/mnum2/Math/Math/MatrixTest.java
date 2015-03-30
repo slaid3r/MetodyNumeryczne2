@@ -5,6 +5,7 @@ import pl.gda.pg.student.nikgracz.mnum2.Math.Matrix;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -57,7 +58,7 @@ public class MatrixTest {
 
         Matrix matrix = new Matrix(MATRIX_ONE);
 
-        List<Double> result = matrix.resolve();
+        Map<Integer, Double> result = matrix.resolve();
 
         for (int i = 0; i < MATRIX_ONE.length; i++) {
             assertTrue(Math.abs(result.get(i) - RESULT.get(i)) < EPSILON);
