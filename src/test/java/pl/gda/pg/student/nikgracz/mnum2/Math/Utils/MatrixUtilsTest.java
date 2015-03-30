@@ -39,9 +39,9 @@ public class MatrixUtilsTest {
     @Test
     public void shouldMultiplyMatrices() {
 
-        Matrix matrixOne = new Matrix(3, 2, MATRIX_ONE);
-        Matrix matrixTwo = new Matrix(2, 2, MATRIX_TWO);
-        Matrix expected = new Matrix(3, 2, MULTIPLY_RESULT);
+        Matrix matrixOne = new Matrix(MATRIX_ONE);
+        Matrix matrixTwo = new Matrix(MATRIX_TWO);
+        Matrix expected = new Matrix(MULTIPLY_RESULT);
 
         assertEquals(expected, MatrixUtils.multiplyByDiagonal(matrixOne, matrixTwo));
     }
@@ -49,8 +49,8 @@ public class MatrixUtilsTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailMultiplicationForIncompatibleMatrices() {
 
-        Matrix matrixOne = new Matrix(2, 3, MATRIX_TWO);
-        Matrix matrixTwo = new Matrix(2, 3, MATRIX_THREE);
+        Matrix matrixOne = new Matrix(MATRIX_TWO);
+        Matrix matrixTwo = new Matrix(MATRIX_THREE);
 
         MatrixUtils.multiplyByDiagonal(matrixOne, matrixTwo);
     }
@@ -58,8 +58,8 @@ public class MatrixUtilsTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldFailSubtractionForIncompatibleMatrices() {
 
-        Matrix matrixOne = new Matrix(3, 2, MATRIX_ONE);
-        Matrix matrixTwo = new Matrix(2, 3, MATRIX_THREE);
+        Matrix matrixOne = new Matrix(MATRIX_ONE);
+        Matrix matrixTwo = new Matrix(MATRIX_THREE);
 
         MatrixUtils.substractMatrices(matrixOne, matrixTwo);
     }
@@ -67,9 +67,9 @@ public class MatrixUtilsTest {
     @Test
     public void shouldSubstractMatrices() {
 
-        Matrix matrixOne = new Matrix(2, 2, MATRIX_TWO);
-        Matrix matrixTwo = new Matrix(2, 2, MATRIX_THREE);
-        Matrix expected = new Matrix(2, 2, SUBSTRACT_RESULT);
+        Matrix matrixOne = new Matrix(MATRIX_TWO);
+        Matrix matrixTwo = new Matrix(MATRIX_THREE);
+        Matrix expected = new Matrix(SUBSTRACT_RESULT);
 
         assertEquals(expected, MatrixUtils.substractMatrices(matrixOne, matrixTwo));
     }

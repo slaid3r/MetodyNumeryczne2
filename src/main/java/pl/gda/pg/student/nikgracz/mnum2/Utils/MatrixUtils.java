@@ -39,7 +39,7 @@ public class MatrixUtils {
     }
 
     /**
-     * Multiplies the given matrices.
+     * Multiplies the given matrices, where second one is diagonal.
      *
      * @param A  the first matrix to multiply
      * @param B  the second matrix to multiply
@@ -48,6 +48,7 @@ public class MatrixUtils {
     public static Matrix multiplyByDiagonal(Matrix A, Matrix B) {
 
         Validate.isTrue(A.getSizeN() == B.getSizeM(), "The number of columns in A must equal the number of rows in B!");
+        Validate.isTrue(B.isDiagonal(), "Second matrix must be diagonal!");
 
         Matrix result = new Matrix(A.getSizeM(), B.getSizeN());
 
@@ -55,7 +56,6 @@ public class MatrixUtils {
             for (int j = 0; j < B.getSizeN(); j++) {
                 result.setAt(i, j, A.getAt(i, j) * B.getAt(j, j));
             }
-            LOGGER.info("Row " + i + " done.");
         }
 
         return result;
@@ -72,11 +72,11 @@ public class MatrixUtils {
         Validate.isTrue(A.getSizeM() == B.getSizeM() && A.getSizeN() == B.getSizeN(), "Matrices must have the same size!");
 
         Matrix result = new Matrix(A.getSizeM(), A.getSizeN());
+
         for (int i = 0; i < A.getSizeM(); i++) {
             for (int j = 0; j < A.getSizeN(); j++) {
                 result.setAt(i, j, A.getAt(i, j) - B.getAt(i, j));
             }
-            LOGGER.info("Row " + i + " done.");
         }
         return result;
     }

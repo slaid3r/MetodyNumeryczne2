@@ -26,19 +26,17 @@ public class Matrix {
      * @param sizeN  the number of columns
      */
     public Matrix(int sizeM, int sizeN) {
-        this(sizeM, sizeN, new double[sizeM][sizeN]);
+        this(new double[sizeM][sizeN]);
     }
 
     /**
      * Creates MxN matrix with values stored in given array.
      *
-     * @param sizeM  the number of rows
-     * @param sizeN  the number of columns
      * @param matrixAsArray  the values of the matrix
      */
-    public Matrix(int sizeM, int sizeN, double[][] matrixAsArray) {
-        this.sizeM = sizeM;
-        this.sizeN = sizeN;
+    public Matrix(double[][] matrixAsArray) {
+        sizeM = matrixAsArray.length;
+        sizeN = matrixAsArray[0].length;
         matrix = matrixAsArray;
     }
 
@@ -51,8 +49,6 @@ public class Matrix {
     public List<Double> resolve() {
 
         Validate.isTrue(sizeM == sizeN -1, "Invalid matrix for Gauss elimination method! Matrix must be of size Mx(M+1)");
-
-        List<Double> result = new ArrayList<Double>();
 
         double[][] matrix = copyArray();
 
@@ -75,7 +71,7 @@ public class Matrix {
             }
         }
 
-        return new Matrix(sizeN, sizeM, transposed);
+        return new Matrix(transposed);
     }
 
     /**
@@ -161,15 +157,35 @@ public class Matrix {
         double[][] newMatrix = new double[sizeM][sizeN + 1];
 
         for (int i = 0; i < sizeM; i++) {
-            for (int j = 0; j < sizeN; j++) {
-                newMatrix[i][j] = matrix[i][j];
-            }
+            System.arraycopy(matrix[i], 0, newMatrix[i], 0, matrix[i].length);
             newMatrix[i][sizeN] = column[i];
             LOGGER.info("Row " + i + " done");
         }
 
         this.matrix = newMatrix;
         this.sizeN += 1;
+    }
+
+    /**
+     * Checks whether given matrix is diagonal.
+     *
+     * @return  true if matrix is diagonal, false otherwise
+     */
+    public boolean isDiagonal() {
+
+        if (sizeM != sizeN) {
+            return false;
+        }
+
+        for (int i = 1; i < sizeM; i++) {
+            for (int j = 0; j < i; j++) {
+                if (matrix[i][j] != 0 || matrix[j][i] != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     @Override
@@ -245,7 +261,7 @@ public class Matrix {
     }
 
     private List<Double> reverseBehavior(double[][] matrix) {
-        List<Double> result = new ArrayList<Double>();
+        List<Double> result = new ArrayList<>();
 
         for (int i = sizeM - 1; i >= 0; i--) {
 
